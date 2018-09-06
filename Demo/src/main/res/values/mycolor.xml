@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="bd_c_grey_1">#272636</color>
+    <color name="bd_c_grey_2">#545454</color>
+    <color name="bd_c_grey_3">#878787</color>
+    <color name="bd_c_grey_324973">#324973</color>
+    <color name="bd_c_grey_time_a6a6a6">#a6a6a6</color>
+    <color name="bd_line_login">#d6d6d6</color>
+    <color name="bd_line">#eeeeee</color>
+    <color name="bd_bg_eeeeee">#eeeeee</color>
+    <color name="btn_default">#272636</color>
+    <color name="btn_click">#ffffff</color>
+    <color name="btn_unclick">#878787</color>
+    <color name="bd_hand_bg">#71272636</color>
+    <color name="bd_yellow">#ffc107</color>
+    
+    <color name="kr_color_main_b_bg">#33323a</color>
+    <color name="kr_color_main_bg">#ffffff</color>
+    <color name="kr_color_line_bg">#979797</color>
+    <color name="kr_color_yellow_bg">#f5a623</color>
+    <color name="kr_color_yellow_s_bg">#facc8e</color>
+    <color name="kr_color_grey_bg">#444444</color>
+    <color name="kr_color_grey">#a0a0a0</color>
+    <color name="kr_color_blue_bg">#4a64e2</color>
+    <color name="kr_color_st_bg">#f3f3f3</color>
+    <color name="kr_color_red_bg">#ff0000</color>
+    <color name="kr_color_grey_titlebar">#4d4d4d</color>
+    <color name="kr_color_red_titlebar">#e74c3c</color>
+    
+     <color name="color_level_s">#4dc8d5</color>
+    <color name="color_level_u">#4d4d4d</color>
+    
+    <color name="home_list_item_bg_0">#ffffff</color>
+    <color name="home_list_item_bg_1">#f5f5f5</color>
+    
+    <color name="home_item_money_0">#f89f1c</color>
+    <color name="home_item_money_1">#cccccc</color>
+    
+    
+    <color name="money_red">#ff0000</color>
+    <color name="money_gree"> #00c55f</color>
+    <color name="xieyi_color"> #4dc8d5</color>
+    
+     	<!-- plan -->
+   	<color name="plan_list_time">#1b1d1e</color>
+   	
+   	<color name="actionbar_title">@color/white</color>
+   	
+   	<color name="tab_color_s">@color/white</color>
+   	<color name="tab_color_u">#909090</color>
+   	
+   	<color name="hand_bg_black">#83000000</color>
+   	
+   	<color name="ba_line_color">#bebebe</color>
+   	
+
+</resources>

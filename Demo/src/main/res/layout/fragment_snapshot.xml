@@ -1,0 +1,149 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        style="@style/text_title_small"
+        android:text="视频截图输入信息"
+        android:background="@color/title_grey"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="视频文件" />
+
+        <View style="@style/view_line_vertical"/>
+
+        <EditText
+            android:id="@+id/snapshot_source"
+            android:layout_weight="4"
+            style="@style/EditText" />
+        <Button
+            android:id="@+id/snapshot_source_choose"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="选择"
+            />
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="起始时间" />
+
+        <EditText
+            android:id="@+id/snapshot_offset"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginLeft="7dp"
+            android:text="时间间隔" />
+
+        <EditText
+            android:id="@+id/snapshot_interval"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="截图宽度" />
+
+        <EditText
+            android:id="@+id/snapshot_pic_width"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginLeft="7dp"
+            android:text="截图高度" />
+
+        <EditText
+            android:id="@+id/snapshot_pic_height"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+    </LinearLayout>
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="截图时长" />
+
+        <EditText
+            android:id="@+id/snapshot_pic_duration"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <View style="@style/view_line"/>
+
+    <Button
+        android:id="@+id/snapshot_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:text="开始视频截图"/>
+
+</LinearLayout>

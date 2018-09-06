@@ -1,0 +1,132 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/image_crop_src"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/image_crop_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:textColor="@color/green"/>
+
+    </FrameLayout>
+
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="裁剪X坐标" />
+
+        <EditText
+            android:id="@+id/image_crop_x_pos"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"
+            android:text="0"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginLeft="7dp"
+            android:text="裁剪Y坐标" />
+
+        <EditText
+            android:id="@+id/image_crop_y_pos"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"
+            android:text="0"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="裁剪宽" />
+
+        <EditText
+            android:id="@+id/image_crop_width"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginLeft="7dp"
+            android:text="裁剪高" />
+
+        <EditText
+            android:id="@+id/image_crop_height"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <Button
+        android:id="@+id/simage_crop_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="开始裁剪"/>
+
+    <View style="@style/view_line"/>
+
+    <ImageView
+        android:id="@+id/image_crop_dst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"/>
+
+</LinearLayout>
+</ScrollView>

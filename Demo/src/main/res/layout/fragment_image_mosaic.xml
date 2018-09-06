@@ -1,0 +1,107 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.netease.transcoding.image.mosaic.MosaicView
+        android:id="@+id/image_mosaic_view"
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+
+    </com.netease.transcoding.image.mosaic.MosaicView>
+
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/text_title_small"
+            android:text="类型"
+            android:background="@color/title_grey"/>
+
+        <RadioGroup
+            android:id="@+id/image_mosaic_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            >
+
+            <RadioButton
+                android:id="@+id/image_mosaic_type_base"
+                style="@style/radio_button"
+                android:text="默认"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/image_mosaic_type_glass"
+                style="@style/radio_button"
+                android:text="毛玻璃"/>
+
+            <RadioButton
+                android:id="@+id/image_mosaic_type_red"
+                style="@style/radio_button"
+                android:text="花色"/>
+        </RadioGroup >
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/text_title_small"
+            android:text="模式"
+            android:background="@color/title_grey"/>
+
+        <RadioGroup
+            android:id="@+id/image_mosaic_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            >
+
+            <RadioButton
+                android:id="@+id/image_mosaic_mode_on"
+                style="@style/radio_button"
+                android:text="马赛克"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/image_mosaic_mode_off"
+                style="@style/radio_button"
+                android:text="擦除"/>
+        </RadioGroup >
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <Button
+        android:id="@+id/image_mosaic_get"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="获取"/>
+
+    <ImageView
+        android:id="@+id/image_mosaic_dst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"/>
+
+</LinearLayout>
+</ScrollView>

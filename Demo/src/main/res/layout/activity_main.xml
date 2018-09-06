@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/urlLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textSize="34dp"
+            android:textColor="#ffffff"
+            android:background="#000000"
+            android:text="网易视频云" />
+
+         <Button
+            android:id="@+id/StartRecordBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="28dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/enter_live"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="进入文件录制" />
+
+        <Button
+            android:id="@+id/StartCompileBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="28dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/enter_live"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="进入文件编辑" />
+
+        <Button
+            android:id="@+id/StartPlayerBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="28dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/enter_live"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="进入文件播放" />
+
+        <Button
+            android:id="@+id/StartImageBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="28dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/enter_live"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="进入图片编辑"/>
+
+        <Button
+            android:id="@+id/StartReverseBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="28dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/enter_live"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="进入视频反转"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

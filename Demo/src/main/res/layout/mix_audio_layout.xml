@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    
+          
+    <RelativeLayout
+        android:id="@+id/popup_window"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="#3e3e3e">
+        
+        <TextView 
+            android:id="@+id/mixAudioFileSpinnerTestView" 
+            android:layout_width="100dp" 
+            android:layout_weight="1"
+            android:layout_height="32dp" 
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="8dp"
+            android:text="选择伴音文件" 
+            android:textSize="15dp"
+            android:textColor="#00ffff" />
+                
+        <Spinner
+            android:id="@+id/mixAudioFileSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mixAudioFileSpinnerTestView"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:spinnerMode="dialog"
+             />
+            
+        
+        <LinearLayout
+            android:id="@+id/audioMixWindow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mixAudioFileSpinner"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <Button
+                android:id="@+id/StartAudioMixBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:padding="3dp"
+                android:text="开始"
+                android:textSize="15dp" />
+            
+            <Button
+                android:id="@+id/PauseResumeAudioMixBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:padding="3dp"
+                android:text="暂停"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/StopAudioMixBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:padding="3dp"
+                android:text="停止"
+                android:textSize="15dp" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/mixAudioSeekBarLayout"
+            android:layout_below="@+id/audioMixWindow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:padding="8dp" >
+         
+            <TextView 
+                android:id="@+id/mixAudioNotifyTV" 
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal"
+                android:scaleType="centerInside"
+                android:layout_marginTop="3dp"
+                android:text="音量" 
+                android:textSize="13sp" />
+                    
+            <SeekBar
+                android:id="@+id/mixAudioVolumeBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:max="100"
+                android:progress="20" />
+    
+            <TextView 
+                android:id="@+id/mixAudioVolumeTV" 
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="match_parent" 
+                android:orientation="horizontal"
+                android:text="20%"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textColor="#00ffff" />
+    
+        </LinearLayout>
+        
+    </RelativeLayout>
+</LinearLayout>

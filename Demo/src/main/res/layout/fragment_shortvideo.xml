@@ -1,0 +1,766 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.netease.demo.TransFragment">
+
+    <TextView
+        style="@style/text_title_small"
+        android:text="短视频处理输入信息"
+        android:background="@color/title_grey"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="视频文件地址1" />
+
+        <View style="@style/view_line_vertical"/>
+
+        <EditText
+            android:id="@+id/multi_input_file_source_1"
+            android:layout_weight="4"
+            style="@style/EditText" />
+        <Button
+            android:id="@+id/multi_input_file_source_1_choose"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="选择"
+            />
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="视频文件地址2" />
+
+        <View style="@style/view_line_vertical"/>
+
+        <EditText
+            android:id="@+id/multi_input_file_source_2"
+            android:layout_weight="4"
+            style="@style/EditText" />
+        <Button
+            android:id="@+id/multi_input_file_source_2_choose"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="选择"
+            />
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="视频文件地址3" />
+
+        <View style="@style/view_line_vertical"/>
+
+        <EditText
+            android:id="@+id/multi_input_file_source_3"
+            android:layout_weight="4"
+            style="@style/EditText" />
+
+        <Button
+            android:id="@+id/multi_input_file_source_3_choose"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="选择"
+            />
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="多文件拼接的淡入淡出时间" />
+
+        <EditText
+            android:id="@+id/multi_input_file_fade_time"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="2"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:text="多文件拼接的目标宽" />
+
+        <EditText
+            android:id="@+id/multi_input_file_target_width"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="720"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_marginLeft="7dp"
+            android:text="多文件拼接的目标高" />
+
+        <EditText
+            android:id="@+id/multi_input_file_target_height"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="1280"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <TextView
+        style="@style/text_title_small"
+        android:text="短视频处理参数"
+        android:background="@color/title_grey"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="视频宽高压缩比" />
+
+        <EditText
+            android:id="@+id/scale_ratio"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="numberDecimal"
+            android:hint="0.5"
+            />
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="裁剪水平坐标" />
+
+        <EditText
+            android:id="@+id/crop_x_pos"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginLeft="7dp"
+            android:text="裁剪垂直坐标" />
+
+        <EditText
+            android:id="@+id/crop_y_pos"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="裁剪后的宽度" />
+
+        <EditText
+            android:id="@+id/crop_width"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginLeft="7dp"
+            android:text="裁剪后的高度" />
+
+        <EditText
+            android:id="@+id/crop_height"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+    </LinearLayout>
+
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="水印位置" />
+
+
+        <EditText
+            android:id="@+id/watermark_rect"
+            android:layout_weight="3"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0-4"/>
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="水印水平坐标" />
+
+        <EditText
+            android:id="@+id/watermark_x_pos"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_marginLeft="7dp"
+            android:text="水印垂直坐标" />
+
+        <EditText
+            android:id="@+id/watermark_y_pos"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+
+            android:text="水印开始时间" />
+
+        <EditText
+            android:id="@+id/watermark_offset"
+            android:layout_weight="2"
+            style="@style/EditText"
+            android:inputType="number"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="水印持续时长" />
+
+
+        <EditText
+            android:id="@+id/watermark_out_time"
+            android:layout_weight="2"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="单位 豪秒"/>
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="动态水印位置" />
+
+        <EditText
+            android:id="@+id/dynamic_watermark_rect"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0-4"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="动态水印帧率" />
+
+        <EditText
+            android:id="@+id/dynamic_watermark_frqu"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="动态水印开始时间" />
+
+        <EditText
+            android:id="@+id/dynamic_watermark_offset"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:text="动态水印持续时长" />
+
+
+        <EditText
+            android:id="@+id/dynamic_watermark_out_time"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="单位 豪秒"/>
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="动态贴图水平坐标" />
+
+        <EditText
+            android:id="@+id/dynamic_watermark_x_pos"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+
+        <View style="@style/view_line_vertical"/>
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_marginLeft="7dp"
+            android:text="动态贴图垂直坐标" />
+
+        <EditText
+            android:id="@+id/dynamic_watermark_y_pos"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="0"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="剪辑开始时间" />
+
+        <EditText
+            android:id="@+id/file_offset"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="剪辑目标时长" />
+
+
+        <EditText
+            android:id="@+id/file_duration"
+            android:layout_weight="3"
+            style="@style/EditText"
+            android:inputType="number"
+            android:hint="单位 豪秒"/>
+
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="视频音量调节系数" />
+
+        <EditText
+            android:id="@+id/audio_adjust_para"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="numberDecimal"
+            android:hint="0-2"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.84"
+            android:text="混音文件地址" />
+
+        <View style="@style/view_line_vertical"/>
+
+        <EditText
+            android:id="@+id/audio_merge_source_file_name"
+            style="@style/EditText"
+            android:layout_weight="4" />
+        <Button
+            android:id="@+id/audio_merge_source_file_choose"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="选择"
+            />
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="混音音量" />
+
+        <EditText
+            android:id="@+id/audio_merge_out_audio_volume"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="numberDecimal"
+            android:hint="1.5"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="渐入时间" />
+
+        <EditText
+            android:id="@+id/audio_merge_fade_time"
+            android:layout_weight="1"
+            style="@style/EditText"
+            android:inputType="numberDecimal"
+            android:hint="单位 豪秒"/>
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        style="@style/text_title_small"
+        android:text="短视频处理输出信息"
+        android:background="@color/title_grey"/>
+
+
+    <View style="@style/view_line"/>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingLeft="7dp"-->
+        <!--android:paddingRight="7dp"-->
+        <!--&gt;-->
+        <!--<TextView-->
+            <!--style="@style/text_content"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1.2"-->
+            <!--android:text="是否使用Android硬件编码" />-->
+
+        <!--<View style="@style/view_line_vertical"/>-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/shortvideo_useHwEnc"-->
+            <!--android:layout_weight="1"-->
+            <!--style="@style/EditText"-->
+            <!--android:inputType="number"-->
+            <!--android:hint="0"/>-->
+    <!--</LinearLayout>-->
+
+    <!--<View style="@style/view_line"/>-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+        <TextView
+            style="@style/text_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:text="文件地址" />
+
+        <View style="@style/view_line_vertical"/>
+
+        <EditText
+            android:id="@+id/shortvideo_out_file_name"
+            android:layout_weight="4"
+            style="@style/EditText" />
+        <Button
+            android:id="@+id/shortvideo_out_file_choose"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="选择"
+            />
+    </LinearLayout>
+
+    <View style="@style/view_line"/>
+
+    <Button
+        android:id="@+id/shortvideo_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="开始短视频处理"
+        android:layout_marginBottom="60dp"/>
+
+</LinearLayout>
+</ScrollView>
