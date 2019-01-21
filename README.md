@@ -1,6 +1,6 @@
 # FUYXShortLiveDemoDroid 快速接入文档
 
-FUYXShortLiveDemoDroid 是集成了 Faceunity 面部跟踪和虚拟道具功能 和 云信短视频  的 Demo。
+FUYXShortLiveDemoDroid 是集成了 Faceunity 面部跟踪和虚拟道具功能 和 **[云信短视频](https://dev.yunxin.163.com/docs/product/%E7%82%B9%E6%92%AD/%E7%9F%AD%E8%A7%86%E9%A2%91SDK/Android%E7%9F%AD%E8%A7%86%E9%A2%91SDK/%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95)**  的 Demo。
 
 本文是 FaceUnity SDK 快速对 云信短视频 的导读说明，关于 `FaceUnity SDK` 的详细说明，请参看 **[FULiveDemoDroid](https://github.com/Faceunity/FULiveDemoDroid/tree/dev)**
 
