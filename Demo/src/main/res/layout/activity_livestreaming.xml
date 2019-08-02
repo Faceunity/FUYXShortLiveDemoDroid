@@ -11,7 +11,7 @@
         android:layout_centerInParent="true"/>
 
 
-    <com.faceunity.ui.BeautyControlView
+    <com.faceunity.beautycontrolview.BeautyControlView
         android:id="@+id/faceunity_control"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x98"

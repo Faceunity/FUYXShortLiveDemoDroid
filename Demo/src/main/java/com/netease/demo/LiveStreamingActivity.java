@@ -19,9 +19,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.faceunity.FURenderer;
-import com.faceunity.ui.BeautyControlView;
-import com.faceunity.utils.EffectEnum;
+import com.faceunity.beautycontrolview.BeautyControlView;
+import com.faceunity.beautycontrolview.EffectEnum;
+import com.faceunity.beautycontrolview.FURenderer;
+import com.netease.demo.utils.PreferenceUtil;
 import com.netease.demo.widget.MixAudioDialog;
 import com.netease.transcoding.demo.R;
 import com.netease.transcoding.record.AudioCallback;
@@ -67,6 +68,7 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
     //第三方滤镜
     private BeautyControlView mBeautyControlView;
     private FURenderer mFURenderer; //FU的滤镜
+    private String isOpen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -538,27 +540,36 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
 
     //FU的滤镜
     private void fuLiveEffect() {
+        isOpen = PreferenceUtil.getString(CrashApplication.getInstance(),
+                PreferenceUtil.KEY_FACEUNITY_ISON);
+        if (isOpen.equals("false")) {
+            mBeautyControlView.setVisibility(View.GONE);
+        }
         mMediaRecord.setCameraBufferNum(1);//将相机采集的buffer数量设置为1，防止faceu在部分性能差的手机上出现闪屏
-        mMediaRecord.setCaptureRawDataCB(new VideoCallback() {
-            @Override
-            public int onVideoCapture(byte[] data, int textureId, int width, int height, int orientation) {
-                //SDK回调的线程已经创建了GLContext
-                if (mFURenderer == null) {
-                    mFURenderer = new FURenderer
-                            .Builder(LiveStreamingActivity.this)
-                            .inputTextureType(1)
-                            .createEGLContext(false)
-                            .needReadBackImage(false)
-                            .setNeedFaceBeauty(true)
-                            .defaultEffect(EffectEnum.Effect_fengya_ztt_fu.effect())
-                            .build();
-                    mBeautyControlView.setOnFUControlListener(mFURenderer);
-                    mFURenderer.onSurfaceCreated();
+        if (isOpen.equals("true")) {
+            mMediaRecord.setCaptureRawDataCB(new VideoCallback() {
+                @Override
+                public int onVideoCapture(byte[] data, int textureId, int width, int height, int orientation) {
+                    //SDK回调的线程已经创建了GLContext
+                    int fuTex = textureId;
+                    if (mFURenderer == null) {
+                        mFURenderer = new FURenderer
+                                .Builder(LiveStreamingActivity.this)
+                                .inputTextureType(1)
+                                .createEGLContext(false)
+                                .needReadBackImage(false)
+                                .setNeedFaceBeauty(true)
+                                .build();
+                        mBeautyControlView.setOnFaceUnityControlListener(mFURenderer);
+                        mFURenderer.onSurfaceCreated();
+                    }
+                    mFURenderer.onCameraChange(cameraType, orientation);
+                    fuTex = mFURenderer.onDrawFrameDoubleInput(data, textureId, width, height);
+                    return fuTex;
                 }
-                mFURenderer.onCameraChange(cameraType, orientation);
-                return mFURenderer.onDrawFrame(data, textureId, width, height);
-            }
-        });
+            });
+        }
+
     }
 
     private void releaseFuEffect() {
