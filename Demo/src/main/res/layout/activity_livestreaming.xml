@@ -10,12 +10,11 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"/>
 
-
-    <com.faceunity.beautycontrolview.BeautyControlView
+    <com.faceunity.nama.ui.BeautyControlView
         android:id="@+id/faceunity_control"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x98"
-        android:layout_above="@+id/live_camera_change"/>
+        android:layout_above="@+id/live_btn_layout" />
 
     <ImageView
         android:id="@+id/live_start_btn"
@@ -35,6 +34,12 @@
         android:layout_toRightOf="@id/live_start_btn"
         android:gravity="right"
         android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/live_camera_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/change" />
 
         <ImageView
             android:id="@+id/live_camera_btn"
@@ -60,16 +65,5 @@
             android:layout_height="wrap_content"
             android:src="@drawable/music"/>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/live_camera_change"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/live_btn_layout"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:src="@drawable/change"/>
-
-
 
 </RelativeLayout>
