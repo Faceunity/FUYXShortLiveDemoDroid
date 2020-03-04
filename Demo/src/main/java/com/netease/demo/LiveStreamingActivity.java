@@ -19,9 +19,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.faceunity.beautycontrolview.BeautyControlView;
-import com.faceunity.beautycontrolview.EffectEnum;
-import com.faceunity.beautycontrolview.FURenderer;
+import com.faceunity.nama.FURenderer;
+import com.faceunity.nama.ui.BeautyControlView;
 import com.netease.demo.utils.PreferenceUtil;
 import com.netease.demo.widget.MixAudioDialog;
 import com.netease.transcoding.demo.R;
@@ -65,10 +64,7 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
     private MediaRecord mMediaRecord = null;
     private volatile boolean mRecording = false;
 
-    //第三方滤镜
-    private BeautyControlView mBeautyControlView;
-    private FURenderer mFURenderer; //FU的滤镜
-    private String isOpen;
+    private FURenderer mFURenderer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +90,34 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
         boolean scale_16x9 = false; //是否强制16:9
 
         //设置第三方滤镜，需要在开启相机前设置，即在startVideoPreview 前设置
-        mBeautyControlView = (BeautyControlView) findViewById(R.id.faceunity_control);
-        fuLiveEffect(); //FU滤镜
+        BeautyControlView beautyControlView = findViewById(R.id.faceunity_control);
+        String isOpen = PreferenceUtil.getString(CrashApplication.getInstance(),
+                PreferenceUtil.KEY_FACEUNITY_ISON);
+        mMediaRecord.setCameraBufferNum(1);//将相机采集的buffer数量设置为1，防止faceu在部分性能差的手机上出现闪屏
+        if ("false".equals(isOpen)) {
+            beautyControlView.setVisibility(View.GONE);
+        } else {
+            // 初始化 FURenderer
+            FURenderer.initFURenderer(this);
+            mFURenderer = new FURenderer
+                    .Builder(LiveStreamingActivity.this)
+                    .build();
+            beautyControlView.setOnFaceUnityControlListener(mFURenderer);
+            mMediaRecord.setCaptureRawDataCB(new VideoCallback() {
+                private boolean mIsFirstFrame = true;
+
+                @Override
+                public int onVideoCapture(byte[] data, int textureId, int width, int height, int orientation) {
+                    if (mIsFirstFrame) {
+                        mFURenderer.onSurfaceCreated();
+                        mIsFirstFrame = false;
+                    }
+                    int fuTex = mFURenderer.onDrawFrameDualInput(data, textureId, width, height);
+                    return fuTex;
+                }
+            });
+        }
+
 
         //麦克风采集回调，需在startRecord之前设置
 //        audioEffect();
@@ -151,8 +173,16 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
                 mMediaRecord.stopRecord();
             }
             mMediaRecord.stopVideoPreview();
-            //消耗第三方滤镜
-            releaseFuEffect();
+
+            // 销毁 FU 资源
+            if (mFURenderer != null) {
+                mMediaRecord.postOnGLThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mFURenderer.onSurfaceDestroyed();
+                    }
+                });
+            }
 
             mMediaRecord.destroyVideoPreview();
             mMediaRecord.unInit();
@@ -200,6 +230,9 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
             case MSG_SWITCH_CAMERA_FINISHED:
                 showToast("相机切换成功");
                 cameraType = cameraType == Camera.CameraInfo.CAMERA_FACING_FRONT ? Camera.CameraInfo.CAMERA_FACING_BACK : Camera.CameraInfo.CAMERA_FACING_FRONT;
+                if (mFURenderer != null) {
+                    mFURenderer.onCameraChange(cameraType, FURenderer.getCameraOrientation(cameraType));
+                }
                 break;
             case MSG_CAMERA_NOT_SUPPORT_FLASH:
                 showToast("不支持闪光灯");
@@ -346,6 +379,7 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
         if (mMediaRecord != null) {
             mMediaRecord.switchCamera();
         }
+
     }
 
     private boolean mFlashOn = false;
@@ -536,52 +570,6 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
                 i++;
             }
         });
-    }
-
-    //FU的滤镜
-    private void fuLiveEffect() {
-        isOpen = PreferenceUtil.getString(CrashApplication.getInstance(),
-                PreferenceUtil.KEY_FACEUNITY_ISON);
-        if (isOpen.equals("false")) {
-            mBeautyControlView.setVisibility(View.GONE);
-        }
-        mMediaRecord.setCameraBufferNum(1);//将相机采集的buffer数量设置为1，防止faceu在部分性能差的手机上出现闪屏
-        if (isOpen.equals("true")) {
-            mMediaRecord.setCaptureRawDataCB(new VideoCallback() {
-                @Override
-                public int onVideoCapture(byte[] data, int textureId, int width, int height, int orientation) {
-                    //SDK回调的线程已经创建了GLContext
-                    int fuTex = textureId;
-                    if (mFURenderer == null) {
-                        mFURenderer = new FURenderer
-                                .Builder(LiveStreamingActivity.this)
-                                .inputTextureType(1)
-                                .createEGLContext(false)
-                                .needReadBackImage(false)
-                                .setNeedFaceBeauty(true)
-                                .build();
-                        mBeautyControlView.setOnFaceUnityControlListener(mFURenderer);
-                        mFURenderer.onSurfaceCreated();
-                    }
-                    mFURenderer.onCameraChange(cameraType, orientation);
-                    fuTex = mFURenderer.onDrawFrameDoubleInput(data, textureId, width, height);
-                    return fuTex;
-                }
-            });
-        }
-
-    }
-
-    private void releaseFuEffect() {
-        if (mFURenderer != null) {
-            mMediaRecord.postOnGLThread(new Runnable() {
-                @Override
-                public void run() {
-                    mFURenderer.onSurfaceDestroyed();
-                    mFURenderer = null;
-                }
-            });
-        }
     }
 
 }
