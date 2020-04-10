@@ -231,7 +231,7 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
                 showToast("相机切换成功");
                 cameraType = cameraType == Camera.CameraInfo.CAMERA_FACING_FRONT ? Camera.CameraInfo.CAMERA_FACING_BACK : Camera.CameraInfo.CAMERA_FACING_FRONT;
                 if (mFURenderer != null) {
-                    mFURenderer.onCameraChange(cameraType, FURenderer.getCameraOrientation(cameraType));
+                    mFURenderer.onCameraChanged(cameraType, FURenderer.getCameraOrientation(cameraType));
                 }
                 break;
             case MSG_CAMERA_NOT_SUPPORT_FLASH:
