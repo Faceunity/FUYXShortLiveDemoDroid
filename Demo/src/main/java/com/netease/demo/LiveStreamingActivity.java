@@ -1,6 +1,5 @@
 package com.netease.demo;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +7,15 @@ import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -17,10 +23,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.faceunity.nama.FURenderer;
-import com.faceunity.nama.ui.BeautyControlView;
+import com.faceunity.nama.IFURenderer;
+import com.faceunity.nama.ui.FaceUnityView;
+import com.faceunity.nama.utils.CameraUtils;
+import com.netease.demo.profile.CSVUtils;
+import com.netease.demo.profile.Constant;
 import com.netease.demo.utils.PreferenceUtil;
 import com.netease.demo.widget.MixAudioDialog;
 import com.netease.transcoding.demo.R;
@@ -31,6 +43,7 @@ import com.netease.transcoding.record.VideoCallback;
 import com.netease.vcloud.video.effect.VideoEffect;
 import com.netease.vcloud.video.render.NeteaseView;
 
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,7 +54,7 @@ import java.util.Locale;
 
 
 //由于直播推流的URL地址较长，可以直接在代码中的mliveStreamingURL设置直播推流的URL
-public class LiveStreamingActivity extends Activity implements MessageHandler {
+public class LiveStreamingActivity extends AppCompatActivity implements MessageHandler, SensorEventListener {
 
     private static final String TAG = "LiveStreamingActivity";
     private DateFormat formatter_file_name = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.getDefault());
@@ -65,6 +78,19 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
     private volatile boolean mRecording = false;
 
     private FURenderer mFURenderer;
+    private SensorManager mSensorManager;
+    private TextView mTvFps;
+    private CSVUtils mCSVUtils;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Runnable mFPSRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mTvFps != null) {
+                mTvFps.setText("RenderFps " + mMediaRecord.getRenderFps() + " camera fps " + mMediaRecord.getCameraFps());
+            }
+            mHandler.postDelayed(this, 50);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +103,7 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.screenBrightness = 0.7f;
         getWindow().setAttributes(params);
-
+        mTvFps = findViewById(R.id.tv_fps);
         //以下为SDK调用主要步骤，请用户参考使用
         //1、创建录制实例
         MediaRecord.MediaRecordPara mediaRecordPara = new MediaRecord.MediaRecordPara();
@@ -90,29 +116,80 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
         boolean scale_16x9 = false; //是否强制16:9
 
         //设置第三方滤镜，需要在开启相机前设置，即在startVideoPreview 前设置
-        BeautyControlView beautyControlView = findViewById(R.id.faceunity_control);
+        FaceUnityView beautyControlView = findViewById(R.id.faceunity_control);
         String isOpen = PreferenceUtil.getString(CrashApplication.getInstance(),
                 PreferenceUtil.KEY_FACEUNITY_ISON);
         mMediaRecord.setCameraBufferNum(1);//将相机采集的buffer数量设置为1，防止faceu在部分性能差的手机上出现闪屏
         if ("false".equals(isOpen)) {
             beautyControlView.setVisibility(View.GONE);
+            mHandler.post(mFPSRunnable);
         } else {
             // 初始化 FURenderer
-            FURenderer.initFURenderer(this);
+            FURenderer.setup(this);
+            initCsvUtil(this);
             mFURenderer = new FURenderer
                     .Builder(LiveStreamingActivity.this)
+                    .setCameraFacing(FURenderer.CAMERA_FACING_FRONT)
+                    .setInputImageOrientation(CameraUtils.getCameraOrientation(FURenderer.CAMERA_FACING_FRONT))
+                    .setInputTextureType(FURenderer.INPUT_TEXTURE_EXTERNAL_OES)
+                    .setRunBenchmark(true)
+                    .setOnDebugListener(new FURenderer.OnDebugListener() {
+                        @Override
+                        public void onFpsChanged(double fps, double callTime) {
+                            final String FPS = String.format(Locale.getDefault(), "%.2f", fps);
+                            Log.e(TAG, "onFpsChanged: FPS " + FPS + " callTime " + String.format(Locale.getDefault(), "%.2f", callTime));
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (mTvFps != null) {
+                                        mTvFps.setText("FPS: " + FPS + " render FPS " + mMediaRecord.getRenderFps() + " camera fps " + mMediaRecord.getCameraFps());
+                                    }
+                                }
+                            });
+                        }
+                    })
                     .build();
-            beautyControlView.setOnFaceUnityControlListener(mFURenderer);
+            beautyControlView.setModuleManager(mFURenderer);
+            mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
             mMediaRecord.setCaptureRawDataCB(new VideoCallback() {
                 private boolean mIsFirstFrame = true;
-
+                private byte[] mReadBack;
                 @Override
                 public int onVideoCapture(byte[] data, int textureId, int width, int height, int orientation) {
                     if (mIsFirstFrame) {
                         mFURenderer.onSurfaceCreated();
                         mIsFirstFrame = false;
+                        mReadBack = new byte[data.length];
                     }
-                    int fuTex = mFURenderer.onDrawFrameDualInput(data, textureId, width, height);
+                    long start = System.nanoTime();
+                    // 输入类型 1 双输入 2 单texture 3 单buffer 4 双输入返回buffer 5 单buffer返回buffer
+                    int inputType = 1;
+                    int fuTex = 0;
+                    switch (inputType) {
+                        case 1:
+                            fuTex = mFURenderer.onDrawFrameDualInput(data, textureId, width, height);
+                            break;
+                        case 2:
+                            fuTex = mFURenderer.onDrawFrameSingleInput(textureId, width, height);
+                            break;
+                        case 3:
+                            fuTex = mFURenderer.onDrawFrameSingleInput(data, width, height, IFURenderer.INPUT_FORMAT_NV21_BUFFER);
+                            break;
+                        case 4:
+                            fuTex = 0;
+                            mFURenderer.onDrawFrameDualInput(data, textureId, width, height, mReadBack, width, height);
+                            System.arraycopy(mReadBack, 0, data, 0, data.length);
+                            break;
+                        case 5:
+                            fuTex = 0;
+                            mFURenderer.onDrawFrameSingleInput(data, width, height, IFURenderer.INPUT_FORMAT_NV21_BUFFER, mReadBack, width, height);
+                            System.arraycopy(mReadBack, 0, data, 0, data.length);
+                            break;
+                    }
+                    long renderTime = System.nanoTime() - start;
+                    if (mCSVUtils != null) {
+                        mCSVUtils.writeCsv(null, renderTime);
+                    }
                     return fuTex;
                 }
             });
@@ -125,8 +202,9 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
         //2、 预览参数设置
         NeteaseView videoView = (NeteaseView) findViewById(R.id.videoview);
 
-        MediaRecord.VideoQuality videoQuality = MediaRecord.VideoQuality.SUPER_HIGH; //视频模板（SUPER_HIGH 1280*720、SUPER 960*540、HIGH 640*480、MEDIUM 480*360）
-        mMediaRecord.startVideoPreview(videoView, frontCamera, videoQuality, scale_16x9);
+//        MediaRecord.VideoQuality videoQuality = MediaRecord.VideoQuality.SUPER_HIGH; //视频模板（SUPER_HIGH 1280*720、SUPER 960*540、HIGH 640*480、MEDIUM 480*360）
+//        mMediaRecord.startVideoPreview(videoView, frontCamera, videoQuality, scale_16x9);
+
         mMediaRecord.setBeautyLevel(0); //磨皮强度为5,共5档，0为关闭
         mMediaRecord.setFilterStrength(0.0f); //滤镜强度
         mMediaRecord.setFilterType(VideoEffect.FilterType.none);
@@ -135,13 +213,14 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
         // /** 超清 960*540 */SUPER,/** 超高清 (1280*720) */SUPER_HIGH  五个模板，
         // 用户如果需要自定义分辨率可以调用startVideoPreviewEx 接口并参考以下参数
         // 码率计算参考公式为 bitrate = width * height * fps * 11 /100;
-//		MediaRecord.VideoPara para = new MediaRecord.VideoPara();
-//		para.setHeight(720);
-//		para.setWidth(1280);
-//		para.setFps(30);
-//		para.setBitrate(1200 * 720 * 30 * 11 /100);
-//		mMediaRecord.startVideoPreviewEx(videoView,frontCamera,useFilter,para);
-
+		MediaRecord.VideoPara para = new MediaRecord.VideoPara();
+		para.setHeight(720);
+		para.setWidth(1280);
+		para.setFps(30);
+		para.setBitrate(1200 * 720 * 30 * 11 /100);
+		mMediaRecord.startVideoPreviewEx(videoView,frontCamera,para);
+        //可以调节亮度，但在红米note4上只能往暗调
+//        mMediaRecord.setExposureCompensation(mMediaRecord.getMaxExposureCompensation());
 
         //Demo控件的初始化（Demo层实现，用户不需要添加该操作）
         UIInit();
@@ -156,12 +235,19 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
     @Override
     protected void onPause() {
         Log.i(TAG, "Activity onPause");
+        if (null != mSensorManager) {
+            mSensorManager.unregisterListener(this);
+        }
         super.onPause();
     }
 
     @Override
     protected void onResume() {
         Log.i(TAG, "Activity onResume");
+        if (null != mSensorManager) {
+            Sensor sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            mSensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
         super.onResume();
     }
 
@@ -180,6 +266,9 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
                     @Override
                     public void run() {
                         mFURenderer.onSurfaceDestroyed();
+                        if (mCSVUtils != null) {
+                            mCSVUtils.close();
+                        }
                     }
                 });
             }
@@ -231,7 +320,10 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
                 showToast("相机切换成功");
                 cameraType = cameraType == Camera.CameraInfo.CAMERA_FACING_FRONT ? Camera.CameraInfo.CAMERA_FACING_BACK : Camera.CameraInfo.CAMERA_FACING_FRONT;
                 if (mFURenderer != null) {
-                    mFURenderer.onCameraChanged(cameraType, FURenderer.getCameraOrientation(cameraType));
+                    mFURenderer.onCameraChanged(cameraType, CameraUtils.getCameraOrientation(cameraType));
+                    if (mFURenderer.getMakeupModule() != null) {
+                        mFURenderer.getMakeupModule().setIsMakeupFlipPoints(cameraType == Camera.CameraInfo.CAMERA_FACING_FRONT ? 0 : 1);
+                    }
                 }
                 break;
             case MSG_CAMERA_NOT_SUPPORT_FLASH:
@@ -508,6 +600,24 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
         return true;
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[1];
+            if (Math.abs(x) > 3 || Math.abs(y) > 3) {
+                if (Math.abs(x) > Math.abs(y)) {
+                    mFURenderer.onDeviceOrientationChanged(x > 0 ? 0 : 180);
+                } else {
+                    mFURenderer.onDeviceOrientationChanged(y > 0 ? 90 : 270);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
 
     //用于接收Service发送的消息，伴音音量
     public class audioMixVolumeMsgReceiver extends BroadcastReceiver {
@@ -553,6 +663,22 @@ public class LiveStreamingActivity extends Activity implements MessageHandler {
                 }
             }
         }
+    }
+
+    private void initCsvUtil(Context context) {
+        mCSVUtils = new CSVUtils(context);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.getDefault());
+        String dateStrDir = format.format(new Date(System.currentTimeMillis()));
+        dateStrDir = dateStrDir.replaceAll("-", "").replaceAll("_", "");
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault());
+        String dateStrFile = df.format(new Date());
+        String filePath = Constant.filePath + dateStrDir + File.separator + "excel-" + dateStrFile + ".csv";
+        Log.d(TAG, "initLog: CSV file path:" + filePath);
+        StringBuilder headerInfo = new StringBuilder();
+        headerInfo.append("version：").append(FURenderer.getVersion()).append(CSVUtils.COMMA)
+                .append("机型：").append(android.os.Build.MANUFACTURER).append(android.os.Build.MODEL)
+                .append("处理方式：Texture").append(CSVUtils.COMMA);
+        mCSVUtils.initHeader(filePath, headerInfo);
     }
 
     private void audioEffect() {
