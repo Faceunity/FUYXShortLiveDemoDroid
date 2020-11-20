@@ -625,7 +625,7 @@ public class ShortVideoProcessFragment extends BaseFragment {
 //        textPaint.setColor(Color.RED);//采用的颜色
 //        canvas.drawText(text, 0,50, textPaint);//绘制上去 字，开始未知x,y采用那只笔绘制
 
-        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.save();
         canvas.restore();
         return icon;
     }

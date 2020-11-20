@@ -5,5 +5,5 @@ package com.netease.demo;
  */
 
 public class TestAppkey {
-    public static String APP_KEY = "55f3fcee14db4682a11e1c633739d314";
+    public static String APP_KEY = "替换为appkey";
 }
